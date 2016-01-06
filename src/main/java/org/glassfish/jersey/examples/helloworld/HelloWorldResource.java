@@ -39,12 +39,15 @@
  */
 package org.glassfish.jersey.examples.helloworld;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.net.URI;
 import java.util.*;
-
 
 
 /**
@@ -55,19 +58,6 @@ import java.util.*;
 public class HelloWorldResource {
     public static final String CLICHED_MESSAGE = "Hello World!";
 
-
-
-
-
-  //  HashMap<String , ArrayList> allitems = new HashMap<String , ArrayList>();
-//    HashMap<String , String> items_2 = new HashMap<String , String>();
-//    HashMap<String , String> items_3 = new HashMap<String , String>();
-//    HashMap<String , String> items_4 = new HashMap<String , String>();
-//    HashMap<String , String> items_5 = new HashMap<String , String>();
-//    HashMap<String , String> items_6 = new HashMap<String , String>();
-//不能在这里用put函数，此处只能进行函数声明和调用初始化/构造函数
-  //  ArrayList allitems = new ArrayList();
-
     @Path("/")
     @GET
     @Produces("text/plain")
@@ -75,35 +65,21 @@ public class HelloWorldResource {
         return CLICHED_MESSAGE;
     }
 
-
-//    public static final String forsave = " [\n" +
-//            "            'ITEM000000',\n" +
-//            "            'ITEM000001',\n" +
-//            "            'ITEM000005'\n" +
-//            "        ]";
-
-    HashMap forsave=new HashMap();
+    HashMap save=new HashMap();
     ArrayList promo=new ArrayList();
+    ArrayList forsave=new ArrayList();
     @Path("/promotion")
     @GET
     @Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-    public HashMap test() {
+    public ArrayList test() {
         promo.add("ITEM000000");
         promo.add("ITEM000001");
         promo.add("ITEM000005");
-        forsave.put("type","BUY_TWO_GET_ONE_FREE");
-        forsave.put("barcode",promo);
+        save.put("type","BUY_TWO_GET_ONE_FREE");
+        save.put("barcode",promo);
+        forsave.add(save);
         return forsave;
     }
-
-
-//    public static final String tt = " World!";
-//    @Path("/test")
-//    @GET
-//    @Produces("text/plain")
-//    public String haha() {
-//        return tt;
-//    }
 
     HashMap coca=new HashMap();
     HashMap  sprite=new HashMap();
@@ -153,10 +129,34 @@ public class HelloWorldResource {
         allItems.add(litchi);
         allItems.add(noodles);
 
-
         return allItems;
+    }
 
-     //   return allitems;
+//String test="";
+//    @Path("/input")
+//    @POST
+//    @Consumes("application/x-www-form-urlencoded")
+//    public void post(@FormParam("hello") String name) {
+//        // Store the message
+//    }
+
+String a="";
+    @Path("/input")
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response insert_inputs(@FormParam("itemp") String itemp){
+        System.out.println(String.format(" %s",itemp));
+        a=String.format(" %s",itemp);
+        System.out.println(a);
+        return Response.status(200).entity(itemp).build();
+    }
+
+    @Path("/input")
+    @GET
+    @Produces("text/plain")
+    public String hahaha() {
+        System.out.println(a);
+        return a;
     }
 
 }
